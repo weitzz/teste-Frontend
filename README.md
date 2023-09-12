@@ -5,6 +5,7 @@ Depois de logado, o usuário da aplicação web deve poder acessar os dados da [
 ## Back-end 💻
 - Todos os endpoints de consulta de dados devem ter autenticação por webtoken ou similar.
 - Deve existir validação dos dados recebidos pela API.
+- O CRUD não precisa de interface, apenas o login e o cadastro
 
 ## Front-end 🎨
 O front-end deve atender aos seguintes requisitos:

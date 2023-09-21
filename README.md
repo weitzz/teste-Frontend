@@ -4,6 +4,8 @@ Depois de logado, o usuário da aplicação web deve poder acessar os dados da [
 
 NOTA: O front-end e back-end deve ser realizado apenas por desenvolvedores Full Stack. Caso contrário, realize o teste de acordo com sua área de atuação.
 
+NOTA 2: Não esqueça de fazer o fork do repositório.
+
 ## Back-end 💻
 - Todos os endpoints de consulta de dados devem ter autenticação por webtoken ou similar.
 - Deve existir validação dos dados recebidos pela API.

@@ -1,3 +1,4 @@
+import Header from '@/components/header'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Rubik } from 'next/font/google'
@@ -11,12 +12,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  modal: React.ReactNode
 }) {
   return (
     <html lang="en">
-      <body className={rubik.className}>{children}</body>
+      <body className={rubik.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }

@@ -17,7 +17,7 @@ Rode ```npm start``` na pasta raiz. Acesse via **localhost:3000**.
 - Hooks
 - Tailwind
 - Prisma
--MongoDB
+- MongoDB
 
 
 

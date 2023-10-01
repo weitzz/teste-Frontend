@@ -6,25 +6,37 @@ import useForm from '@/hooks/useForm';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation'
 
 export default function Form() {
+    const router = useRouter()
     const email = useForm('email')
     const password = useForm('')
+    const nome = useForm('')
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (email.validate() && password.validate()) {
             const formData = new FormData(e.currentTarget);
-            const response = await fetch(`/api/auth/register`, {
+            const requestBody = {
+                nome: formData.get('nome'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+            };
+            const requestOptions = {
                 method: 'POST',
-                body: JSON.stringify({
-                    email: formData.get('email'),
-                    password: formData.get('password'),
-                }),
-            });
-
-
-            console.log({ response });
+                body: JSON.stringify(requestBody),
+            };
+            try {
+                const response = await fetch(`/api/register`, requestOptions);
+                const userInfo = await response.json();
+                console.log({ response });
+                console.log(userInfo);
+                router.push('/login');
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+            }
         }
     };
     return (
@@ -33,8 +45,9 @@ export default function Form() {
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-2 mx-auto max-w-md mt-10"
             >
-                <Input label='Email' placeholder="email@email.com" type="text" name={"email"}  {...email} />
-                <Input label='Senha' placeholder="***" type="password" name={"password"}  {...password} />
+                <Input id={'nome'} label='Nome' placeholder="" type="text" name={"nome"}  {...nome} />
+                <Input id={'email'} label='Email' placeholder="email@email.com" type="text" name={"email"}  {...email} />
+                <Input id={'password'} label='Senha' placeholder="***" type="password" name={"password"}  {...password} />
                 <Button type="submit">Registrar</Button>
 
             </form>
@@ -47,9 +60,9 @@ export default function Form() {
                     Entrar com Google
                 </Button>
                 <p className='text-center text-sm text-gray-600 mt-2'>
-                    Se você  não tem uma conta, por favor
-                    <Link className='text-blue-500 hover:underline' href='/register'>
-                        Registre-se
+                    Se você tem uma conta, por favor
+                    <Link className='text-blue-500 hover:underline' href='/login'>
+                        Login
                     </Link>
                 </p>
             </div>

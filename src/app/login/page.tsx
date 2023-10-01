@@ -1,25 +1,21 @@
-"use client"
 import Container from "@/components/container"
-import Button from "@/components/forms/button"
-import Input from "@/components/forms/input"
-import SignInButton from "@/components/signInButton"
-import useForm from "@/hooks/useForm"
-import { signIn } from "next-auth/react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 import Form from "./form"
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 
-
-const Login = () => {
-
+const Login = async () => {
+    const session = await getServerSession();
+    if (session) {
+        redirect('/');
+    }
     return (
-        <main className="mt-6">
-            <Container>
-                <h2 className="text-base text-slate-500 font-semibold">Login</h2>
-                <Form />
-            </Container>
-        </main>
+
+        <Container>
+            <h2 className='flex items-center justify-center mt-4 text-lg text-slate-700'>Login</h2>
+            <Form />
+        </Container>
+
 
 
 

@@ -19,9 +19,6 @@ const getData = async (name: string) => {
 
 const SearchBeer = async ({ params: { name } }: { params: { name: string } }) => {
     const beerName: IBeer[] = await getData(name)
-
-    console.log(beerName)
-
     return (
         <Container>
             <InputSearch />

@@ -1,7 +1,6 @@
-import React from 'react'
+
 import Image from 'next/image'
 import Beer from 'public/beer.png'
-import { FiUser } from 'react-icons/fi'
 import Link from 'next/link'
 import SignInButton from '../signInButton'
 const Header = () => {

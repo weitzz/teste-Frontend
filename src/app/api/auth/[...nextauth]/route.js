@@ -1,39 +1,60 @@
 import NextAuth from "next-auth/next";
-import Credentials from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from 'next-auth/providers/google'
+import bcrypt from 'bcrypt'
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaClient } from "@prisma/client"
 
+const prisma = new PrismaClient()
 
 export const authOption = {
+    adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
+            name: 'credentialsGoogle',
             clientId: process.env.GOOGLE_ID,
             clientSecret: process.env.GOOGLE_SECRET,
         }),
         CredentialsProvider({
+            name: 'credentials',
             credentials: {
-                username: { label: "Username", type: "text ", placeholder: "" },
-                email: { label: "Email", type: "text ", placeholder: "" },
-                password: { label: "Password", type: "password" },
-
+                nome: {},
+                email: {},
+                password: {}
             },
-            async authorize(credentials, req) {
-                const user = {
-                    id: '1',
-                    name: 'admin',
-                    email: 'admin@admin.com'
-                }
-
-                if (user) {
-                    return user
-                } else {
+            async authorize(credentials) {
+                if (!credentials.email || !credentials.password) {
                     return null
                 }
+
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email
+                    }
+                })
+
+                if (!user) {
+                    return null
+                }
+                const passwordCheck = await bcrypt.compare(credentials.password, user.hashpassword)
+
+                if (!passwordCheck) {
+                    return null
+                }
+
+                return user
             }
         })
+
     ],
     pages: {
         signIn: '/login'
-    }
+    },
+    session: {
+        strategy: 'jwt'
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    debug: process.env.NODE_ENV === 'development'
 }
 const handler = NextAuth(authOption)
 

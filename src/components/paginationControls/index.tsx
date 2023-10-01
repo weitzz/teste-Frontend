@@ -1,50 +1,50 @@
-'use client'
+"use client";
 
-import { FC } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { Spinner } from "@/components/spinner";
+import { fetchData } from "@/api";
+import { IBeer } from "@/types/beerTypes";
+import Card from "../card";
+import Link from "next/link";
 
-interface PaginationControlsProps {
-    hasNextPage: boolean
-    hasPrevPage: boolean
-}
+export function LoadMore() {
+    const [beers, setBeers] = useState<IBeer[]>([]);
+    const [page, setPage] = useState(1);
 
-const PaginationControls: FC<PaginationControlsProps> = (
-    {
-        hasNextPage,
-        hasPrevPage,
-    }
-) => {
-    const router = useRouter()
-    const searchParams = useSearchParams()
+    const { ref, inView } = useInView();
 
-    let page = searchParams.get('page') ?? '1'
-    let per_page = searchParams.get('per_page') ?? '5'
+    const delay = (ms: number) =>
+        new Promise((resolve) => setTimeout(resolve, ms));
+
+    const loadMoreBeers = async () => {
+        // Once the page 8 is reached repeat the process all over again.
+        await delay(2000);
+        const nextPage = (page % 7) + 1;
+        const newProducts = (await fetchData(nextPage)) ?? [];
+        setBeers((prevProducts: IBeer[]) => [...prevProducts, ...newProducts]);
+        setPage(nextPage);
+    };
+
+    useEffect(() => {
+        if (inView) {
+            loadMoreBeers();
+        }
+    }, [inView]);
 
     return (
-        <div className='flex gap-2'>
-            <button
-                className='bg-blue-500 text-white p-1'
-                disabled={!hasPrevPage}
-                onClick={() => {
-                    router.push(`/?page=${Number(page) - 1}&per_page=${per_page}`)
-                }}>
-                prev page
-            </button>
-
-            <div>
-                {page} / {Math.ceil(10 / Number(per_page))}
+        <>
+            {beers.map((item) => (
+                <Link href={`/beer/${item.id}`}>
+                    <Card item={item} key={item.id} />
+                </Link>
+            ))}
+            <div
+                className="flex justify-center items-center p-4 col-span-1 sm:col-span-2 md:col-span-3"
+                ref={ref}
+            >
+                <Spinner />
             </div>
-
-            <button
-                className='bg-blue-500 text-white p-1'
-                disabled={!hasNextPage}
-                onClick={() => {
-                    router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`)
-                }}>
-                next page
-            </button>
-        </div>
-    )
+        </>
+    );
 }
-
-export default PaginationControls

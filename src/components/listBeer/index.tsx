@@ -2,6 +2,7 @@ import { IBeer } from '@/types/beerTypes';
 import Link from 'next/link';
 import { getAll } from '@/api';
 import Card from '../card';
+import { LoadMore } from '../paginationControls';
 
 
 
@@ -15,6 +16,7 @@ const ListBeer = async () => {
                     <Card item={item} key={item.id} />
                 </Link>
             ))}
+            <LoadMore />
 
         </section>
 

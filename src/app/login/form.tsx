@@ -1,12 +1,11 @@
 'use client';
-
 import Button from '@/components/forms/button';
 import Input from '@/components/forms/input';
 import useForm from '@/hooks/useForm';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
 export default function Form() {
     const email = useForm('email')
@@ -22,9 +21,10 @@ export default function Form() {
                 password: formData.get('password'),
                 redirect: false,
             });
+            router.push('/');
             console.log({ response });
             if (!response?.error) {
-                router.push('/');
+
                 router.refresh();
             }
         }

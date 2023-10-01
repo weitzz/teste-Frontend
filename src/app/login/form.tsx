@@ -48,7 +48,7 @@ export default function Form() {
                 </Button>
                 <p className='text-center text-sm text-gray-600 mt-2'>
                     Se você  não tem uma conta, por favor
-                    <Link className='text-blue-500 hover:underline' href='/register'>
+                    <Link className='text-blue-500 hover:underline ml-2' href='/register'>
                         Registre-se
                     </Link>
                 </p>

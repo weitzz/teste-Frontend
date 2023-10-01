@@ -5,8 +5,6 @@ import { IBeer } from '@/types/beerTypes'
 import Link from 'next/link'
 
 const getData = async (name: string) => {
-    console.log(name)
-
     try {
         const res = await fetch(`${process.env.NEXT_API_URL}?beer_name=${name}`)
         return res.json()

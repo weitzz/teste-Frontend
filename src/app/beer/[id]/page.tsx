@@ -1,45 +1,54 @@
-"use client"
-import Modal from '@/components/modal'
-import { IBeer } from '@/types/beerTypes';
 
+import { IBeer } from '@/types/beerTypes';
+import { getId } from '@/api'
+import Container from '@/components/container';
+import Image from 'next/image';
+import LinkButton from '@/components/forms/linkButton';
 interface PageProps {
-    params: { id: string, name: string }
+    params: { id: string }
     searchParams: string
 }
 
 
-const getId = async (id: string) => {
-    try {
-        const res = await fetch(`${process.env.NEXT_API_URL}/${id}`, {
-            next: { revalidate: 320 }
-        })
-
-        if (!res.ok) {
-            throw new Error('Nenhuma cerveja encontrada')
-        }
-        const data: IBeer[] = await res.json();
-        return data
-
-    } catch (err) {
-        throw new Error('Erro ao carregar api')
-    }
-}
-
 const BeerDetails = async ({ params }: PageProps) => {
     const beer: IBeer[] = await getId(params.id)
-    const onClose = async () => { alert('abriu') }
-    const onOk = async () => { alert('fechou') }
-
-    console.log(beer)
     return (
-
-        <Modal title='teste' onClose={onClose} onOk={onOk}>
+        <main className='mt-4'>
             {beer.map((item) => (
-                <div key={item.id}>
-                    <h2>{item.name}</h2>
-                </div>
-            ))}
-        </Modal>
+                <Container>
+                    <div key={item.id}>
+                        <div className='flex justify-center p-2'>
+                            <Image src={item.image_url}
+                                alt={item.name}
+                                width={80}
+                                height={75}
+                                quality={100}
+                                priority />
+                        </div>
+                        <div className="px-6 py-4">
+                            <h2 className="font-bold text-xl mb-2 text-slate-700">{item.name}</h2>
+                            <p className="text-slate-700 text-base">
+                                {item.tagline}
+                            </p>
+                            <p className="text-slate-600 text-base mt-2">
+                                {item.description}
+                            </p>
+                            <ul className="text-slate-600 text-base mt-2">
+                                <h2 className="font-bold text-lg mb-2">Ingredientes:</h2>
+                                <li>
+                                    {item.ingredients?.malt?.name}
+                                </li>
+                                <li>{item.ingredients?.hops?.name}</li>
+                                <li>{item.ingredients?.yeast}</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <LinkButton href={'/'}>Voltar</LinkButton>
+                </Container>
+            ))
+            }
+        </main >
 
     )
 }

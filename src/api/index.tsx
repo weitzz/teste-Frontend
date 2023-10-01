@@ -38,3 +38,21 @@ export const getRandomApi = async () => {
         throw new Error('Erro ao carregar api')
     }
 }
+
+
+export const getId = async (id: string) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_API_URL}/${id}`, {
+            next: { revalidate: 320 }
+        })
+
+        if (!res.ok) {
+            throw new Error('Nenhuma cerveja encontrada')
+        }
+        const data: IBeer[] = await res.json();
+        return data
+
+    } catch (err) {
+        throw new Error('Erro ao carregar api')
+    }
+}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Spinner } from "@/components/spinner";
-import { fetchData } from "@/api";
+import { fetchData } from "@/services";
 import { IBeer } from "@/types/beerTypes";
 import Card from "../card";
 import Link from "next/link";

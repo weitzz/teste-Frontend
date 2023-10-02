@@ -1,6 +1,6 @@
 
 import { IBeer } from '@/types/beerTypes';
-import { getId } from '@/api'
+import { getId } from '@/services'
 import Container from '@/components/container';
 import Image from 'next/image';
 import LinkButton from '@/components/forms/linkButton';
@@ -44,7 +44,7 @@ const BeerDetails = async ({ params }: PageProps) => {
 
                         </div>
                     </div>
-                    <LinkButton href={'/'}>Voltar</LinkButton>
+                    <LinkButton href={'/beer'}>Voltar</LinkButton>
                 </Container>
             ))
             }

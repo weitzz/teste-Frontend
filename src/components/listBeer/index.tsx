@@ -1,6 +1,6 @@
 import { IBeer } from '@/types/beerTypes';
 import Link from 'next/link';
-import { getAll } from '@/api';
+import { getAll } from '@/services';
 import Card from '../card';
 import { LoadMore } from '../paginationControls';
 

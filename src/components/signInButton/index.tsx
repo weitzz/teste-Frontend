@@ -2,6 +2,7 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import Button from "../forms/button"
+import { FiUser } from "react-icons/fi"
 
 
 const SignInButton = () => {
@@ -10,12 +11,12 @@ const SignInButton = () => {
     <>
       {session ? (
         <div className='hidden sm:flex justify-center items-center gap-2' >
-          <span>Olá, {session?.user?.name}</span>
-          <Button onClick={() => signOut()}>
+          <span>Olá, {session?.user?.name || session?.user?.email}</span>
+          {session.user?.image ? <Image src={session?.user?.image} width={30} height={30} quality={100} className="rounded-full" alt="foto de perfil ou logotipo" /> : <FiUser size={25} />}
+          <Button onClick={() => signOut({ callbackUrl: '/' })}>
             Sair
           </Button>
-          <Image src={session?.user?.image} width={30} height={30} quality={100} className="rounded-full" />
-        </div >
+        </div>
 
       ) : (
         <div className='hidden sm:flex justify-center items-center gap-2' >

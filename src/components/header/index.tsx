@@ -11,7 +11,7 @@ const Header = () => {
                     <Link href='/' rel="preload">
                         <Image src={Beer} alt='logo-cerveja' width={50} height={50} priority />
                     </Link>
-                    <Link href='/' rel="preload">
+                    <Link href='/beer' rel="preload">
                         Cervejas
                     </Link>
                     <Link href='/profile' rel="preload">

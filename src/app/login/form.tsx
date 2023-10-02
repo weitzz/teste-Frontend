@@ -9,33 +9,40 @@ import { FormEvent, useState } from 'react';
 
 export default function Form() {
     const email = useForm('email')
-    const password = useForm('')
+    const password = useForm()
     const router = useRouter();
+    const [error, setError] = useState("");
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (email.validate() && password.validate()) {
-
-            const formData = new FormData(e.currentTarget);
-            const response = await signIn('credentials', {
-                email: formData.get('email'),
-                password: formData.get('password'),
-                redirect: false,
-            });
-            router.push('/');
-            console.log({ response });
-            if (!response?.error) {
-
-                router.refresh();
+        try {
+            if (await email.validate() && await password.validate()) {
+                const formData = new FormData();
+                formData.append('email', email.value);
+                formData.append('password', password.value);
+                const response = await signIn('credentials', {
+                    email: email.value,
+                    password: password.value,
+                    redirect: false,
+                });
+                router.push('/beer');
+                console.log({ response });
+                if (!response?.error) {
+                    router.refresh();
+                }
             }
+        } catch (e) {
+            setError('Login inválido')
+            console.log(e)
         }
+
 
     };
     return (
         <>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2 mx-auto max-w-lg mt-10">
-                <Input label='Email' placeholder="email@email.com" type="text" name={""} {...email} />
-                <Input label='Senha' placeholder="***" type="password" name={""} {...password} />
+            <form id='loginform' onSubmit={handleSubmit} className="flex flex-col gap-2 mx-auto max-w-lg mt-10">
+                <Input label='Email' placeholder="email@email.com" type="text" name="email" {...email} />
+                <Input label='Senha' placeholder="***" type="password" name="password" {...password} />
                 <Button type="submit">Entrar</Button>
             </form>
             <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-yellow-300 after:ml-4 after:block after:h-px after:flex-grow after:bg-yellow-300'>
@@ -46,6 +53,11 @@ export default function Form() {
                 <Button onClick={() => signIn('google')}>
                     Entrar com Google
                 </Button>
+                {error &&
+                    <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                        {error}
+                    </div>
+                }
                 <p className='text-center text-sm text-gray-600 mt-2'>
                     Se você  não tem uma conta, por favor
                     <Link className='text-blue-500 hover:underline ml-2' href='/register'>

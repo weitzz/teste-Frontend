@@ -7,12 +7,11 @@ import { connectMongoDB } from '@/lib/mongodb';
 
 export async function POST(request: Request) {
     try {
-        const { nome, email, password } = await request.json();
-        const hashedPassword = await hash(password, 10);
-        await connectMongoDB()
-        await User.create({
-            nome, email, password: hashedPassword
-        })
+        const { email } = await request.json();
+        const user = await User.findOne({ email }).select("_id")
+        console.log(user)
+        return NextResponse.json({ user });
+
     } catch (e) {
         console.log({ e });
     }

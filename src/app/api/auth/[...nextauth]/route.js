@@ -21,8 +21,8 @@ export const authOption = {
                 try {
                     await connectMongoDB()
                     const user = await User.findOne({ email })
-                    if (!user) return null
-                    const passwordCheck = await bcrypt.compare(credentials.password, user.password)
+                    if (!user) { return null }
+                    const passwordCheck = await bcrypt.compare(password, user.password)
                     if (!passwordCheck) {
                         return null
                     }

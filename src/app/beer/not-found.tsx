@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-const NotFound = () => {
+const NotFoundPage = () => {
     return (
         <main className='text-center'>
             <p className='text-3xl'>Nao encontrado</p>
@@ -10,4 +10,4 @@ const NotFound = () => {
     )
 }
 
-export default NotFound
+export default NotFoundPage

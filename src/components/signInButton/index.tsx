@@ -12,7 +12,7 @@ const SignInButton = () => {
       {session ? (
         <div className='hidden sm:flex justify-center items-center gap-2' >
           <span>Olá, {session?.user?.name || session?.user?.email}</span>
-          {session.user?.image ? <Image src={session?.user?.image} width={30} height={30} quality={100} className="rounded-full" alt="foto de perfil ou logotipo" /> : <FiUser size={25} />}
+          {session.user?.image ? <Image src={session?.user?.image} width={40} height={40} quality={100} className="rounded-full" alt="foto de perfil ou logotipo" /> : <FiUser size={25} />}
           <Button onClick={() => signOut({ callbackUrl: '/' })}>
             Sair
           </Button>

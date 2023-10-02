@@ -2,7 +2,6 @@ import Card from '@/components/card'
 import Container from '@/components/container'
 import InputSearch from '@/components/inputSearch'
 import { getDataName } from '@/services'
-import { IBeer } from '@/types/beerTypes'
 import Link from 'next/link'
 
 
@@ -10,7 +9,7 @@ import Link from 'next/link'
 
 
 const SearchBeer = async ({ params: { name } }: { params: { name: string } }) => {
-    const beerName: IBeer[] = await getDataName(name)
+    const beerName = await getDataName(name)
     return (
         <Container>
             <InputSearch />

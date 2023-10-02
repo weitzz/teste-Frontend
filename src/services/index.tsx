@@ -52,7 +52,7 @@ export const getDataName = async (name: string) => {
         return data
 
     } catch (err) {
-        throw new Error('Erro ao carregar api')
+        console.log(err)
 
     }
 }
@@ -71,7 +71,7 @@ export const getId = async (id: string) => {
         return data
 
     } catch (err) {
-        throw new Error('Erro ao carregar api')
+        console.log(err)
     }
 }
 

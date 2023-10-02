@@ -24,14 +24,16 @@ export default function Form() {
                     password: password.value,
                     redirect: false,
                 });
-                router.push('/beer');
+
                 console.log({ response });
-                if (!response?.error) {
-                    router.refresh();
+
+                if (response?.error) {
+                    setError("Login inválido");
+                    return;
                 }
+                router.replace("/beer");
             }
         } catch (e) {
-            setError('Login inválido')
             console.log(e)
         }
 
@@ -54,7 +56,7 @@ export default function Form() {
                     Entrar com Google
                 </Button>
                 {error &&
-                    <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                    <div className=" w-full bg-red-500 text-white  text-sm py-1 px-3 rounded-md mt-2">
                         {error}
                     </div>
                 }

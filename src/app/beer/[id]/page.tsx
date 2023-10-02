@@ -11,10 +11,10 @@ interface PageProps {
 
 
 const BeerDetails = async ({ params }: PageProps) => {
-    const beer: IBeer[] = await getId(params.id)
+    const beer = await getId(params.id)
     return (
         <main className='mt-4'>
-            {beer.map((item) => (
+            {beer && beer.map((item) => (
                 <Container>
                     <div key={item.id}>
                         <div className='flex justify-center p-2'>

@@ -60,7 +60,6 @@ export default function Form() {
 
             try {
                 const response = await fetch(`/api/register`, requestOptions);
-                const userInfo = await response.json();
                 router.push('/login');
             } catch (error) {
                 console.error('Error:', error);
